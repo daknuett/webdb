@@ -1,0 +1,171 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>webdb.typehandling &#8212; webdb 0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="webdb.adapter" href="adapter.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="webdb-typehandling">
+<h1>webdb.typehandling<a class="headerlink" href="#webdb-typehandling" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-webdb.typehandling.date_and_time">
+<span id="webdb-typehandling-date-and-time"></span><h2>webdb.typehandling.date_and_time<a class="headerlink" href="#module-webdb.typehandling.date_and_time" title="Permalink to this headline">¶</a></h2>
+<p>This module provides classes that can be used to handle date/time/datetime
+objects with the JSON api. All adapters inherite from the coresponding 
+datetime class and add the <code class="docutils literal notranslate"><span class="pre">from_dict</span></code> staticmethod and the <code class="docutils literal notranslate"><span class="pre">to_dict</span></code> 
+method.</p>
+<dl class="exception">
+<dt id="webdb.typehandling.date_and_time.ConversionException">
+<em class="property">exception </em><code class="descclassname">webdb.typehandling.date_and_time.</code><code class="descname">ConversionException</code><a class="headerlink" href="#webdb.typehandling.date_and_time.ConversionException" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="webdb.typehandling.date_and_time.DateAdapter">
+<em class="property">class </em><code class="descclassname">webdb.typehandling.date_and_time.</code><code class="descname">DateAdapter</code><a class="headerlink" href="#webdb.typehandling.date_and_time.DateAdapter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subclass of datetime.date.</p>
+<dl class="staticmethod">
+<dt id="webdb.typehandling.date_and_time.DateAdapter.copy">
+<em class="property">static </em><code class="descname">copy</code><span class="sig-paren">(</span><em>date</em><span class="sig-paren">)</span><a class="headerlink" href="#webdb.typehandling.date_and_time.DateAdapter.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy a date instance and construct a new DateAdapter.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="webdb.typehandling.date_and_time.DatetimeAdapter">
+<em class="property">class </em><code class="descclassname">webdb.typehandling.date_and_time.</code><code class="descname">DatetimeAdapter</code><a class="headerlink" href="#webdb.typehandling.date_and_time.DatetimeAdapter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subclass of datetime.datetime.</p>
+<dl class="staticmethod">
+<dt id="webdb.typehandling.date_and_time.DatetimeAdapter.copy">
+<em class="property">static </em><code class="descname">copy</code><span class="sig-paren">(</span><em>datetime</em><span class="sig-paren">)</span><a class="headerlink" href="#webdb.typehandling.date_and_time.DatetimeAdapter.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy a datetime instance and create a new DatetimeAdapter.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="webdb.typehandling.date_and_time.TimeAdapter">
+<em class="property">class </em><code class="descclassname">webdb.typehandling.date_and_time.</code><code class="descname">TimeAdapter</code><a class="headerlink" href="#webdb.typehandling.date_and_time.TimeAdapter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subclass of datetime.time.</p>
+<dl class="staticmethod">
+<dt id="webdb.typehandling.date_and_time.TimeAdapter.copy">
+<em class="property">static </em><code class="descname">copy</code><span class="sig-paren">(</span><em>time</em><span class="sig-paren">)</span><a class="headerlink" href="#webdb.typehandling.date_and_time.TimeAdapter.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy a time instance and create a new TimeAdapter.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-webdb.typehandling.typehandling">
+<span id="webdb-typehandling-typehandling"></span><h2>webdb.typehandling.typehandling<a class="headerlink" href="#module-webdb.typehandling.typehandling" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="webdb.typehandling.typehandling.handle_type">
+<code class="descclassname">webdb.typehandling.typehandling.</code><code class="descname">handle_type</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#webdb.typehandling.typehandling.handle_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle types coming from the client, convert the values
+in an appropiate manner and return them.</p>
+<p>raises ConversionException on failure.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="webdb.typehandling.typehandling.handle_types">
+<code class="descclassname">webdb.typehandling.typehandling.</code><code class="descname">handle_types</code><span class="sig-paren">(</span><em>dct</em><span class="sig-paren">)</span><a class="headerlink" href="#webdb.typehandling.typehandling.handle_types" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles all types in a dict. Uses <code class="docutils literal notranslate"><span class="pre">handle_type</span></code> internally.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="webdb.typehandling.typehandling.reverse_handle_type">
+<code class="descclassname">webdb.typehandling.typehandling.</code><code class="descname">reverse_handle_type</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#webdb.typehandling.typehandling.reverse_handle_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles types coming from a client.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">webdb.typehandling</a><ul>
+<li><a class="reference internal" href="#module-webdb.typehandling.date_and_time">webdb.typehandling.date_and_time</a></li>
+<li><a class="reference internal" href="#module-webdb.typehandling.typehandling">webdb.typehandling.typehandling</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="package.html">Package Documentation</a><ul>
+      <li>Previous: <a href="adapter.html" title="previous chapter">webdb.adapter</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/typehandling.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Daniel Knüttel.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/typehandling.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
