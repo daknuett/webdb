@@ -1,4 +1,5 @@
-from webdb.adapter.sqlite import SqliteDB
+from webdb.adapter.sqlite import SqliteDB, SqliteDBMS
+import os, sqlite3
 
 def test_sqlite(sqlite3_db_default):
 	data = [("test", 1, 0.5),
@@ -40,3 +41,19 @@ def test_sqlite(sqlite3_db_default):
 					}
 				}) == [("foo", ), ("bar", )]
 
+def test_sqlite_dbms(sqlite_dbms_default):
+	data1, data2, dbms = sqlite_dbms_default
+	inject = lambda: "user1"
+	inject_as = "username"
+
+	assert dbms.handle_request({"database": "users", "request": 
+				{"table": "users", "operation": "SELECT", "parameters": 
+					{"what": ["fullname"], "where": {}}
+				}
+			}) == [("User Numer One",)]
+
+	assert dbms.handle_request({"database": "logs", "request":
+				{"table": "logs", "operation": "SELECT", "parameters":
+					{"what": [], "where": {}}
+				}
+			}) == [d for d in data2 if d[0] == inject()]

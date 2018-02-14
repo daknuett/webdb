@@ -1,6 +1,7 @@
-import sqlite3
+import sqlite3, os
 from .exceptions import DatabaseError
 from .abstractsql import AbstractSQLDB
+from .abc import AbstractDBMS
 
 class SqliteDB(AbstractSQLDB):
 	"""
@@ -29,3 +30,25 @@ class SqliteDB(AbstractSQLDB):
 		cursor = self._con.cursor()
 		cursor.execute("SELECT name FROM sqlite_master WHERE type = \"table\"")
 		return [row[0] for row in cursor.fetchall()]
+
+class SqliteDBMS(AbstractDBMS):
+	"""
+	DBMS for SQLite files. All databases are files under ``path``.
+	"""
+	def __init__(self, path, filenames, inject = None, inject_as = None):
+		AbstractDBMS.__init__(self)
+		self._path = path
+		self._filenames = filenames
+		self.inject = inject
+		self.inject_as = inject_as
+
+	def dispatch_DB(self, db_name):
+		if(not db_name in self._filenames):
+			raise DatabaseError("unknown database")
+
+		full_path = os.path.join(self._path, db_name)
+		if(not os.path.exists(full_path)):
+			raise DatabaseError("database does not exist")
+
+		return SqliteDB(full_path) 
+	

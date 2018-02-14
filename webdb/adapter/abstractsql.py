@@ -133,7 +133,6 @@ class AbstractSQLDB(AbstractDB):
 
 
 		cursor = self._con.cursor()
-		print(sql_string)
 		cursor.execute(sql_string, where_values)
 
 		return cursor.fetchall()
