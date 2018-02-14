@@ -4,6 +4,11 @@ from .exceptions import NotSupportedError, DatabaseError
 from ..typehandling.typehandling import handle_types
 
 class AbstractSQLDB(AbstractDB):
+	"""
+	An abstract SQL DB adapter. The following methods must be overwritten:
+	``open``, ``close``, ``get_column_names``, ``get_table_names``.
+
+	"""
 	def __init__(self):
 		self._con = None
 		self.handlers = {"INSERT": self.handle_insert,
@@ -13,9 +18,15 @@ class AbstractSQLDB(AbstractDB):
 
 	@abstractmethod
 	def get_column_names(self, table):
+		"""
+		Return a list with the column names in this table.
+		"""
 		pass
 	@abstractmethod
 	def get_table_names(self):
+		"""
+		Return a list of table names in this database.
+		"""
 		pass
 	
 	def handle_request(self, request, inject = None, inject_as = None):

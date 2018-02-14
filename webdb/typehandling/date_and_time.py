@@ -1,18 +1,20 @@
-import datetime
-
 """
 This module provides classes that can be used to handle date/time/datetime
 objects with the JSON api. All adapters inherite from the coresponding 
 datetime class and add the ``from_dict`` staticmethod and the ``to_dict`` 
 method.
-
-
 """
+
+import datetime
+
 
 class ConversionException(Exception): 
 	pass
 
 class DateAdapter(datetime.date):
+	"""
+	Subclass of datetime.date.
+	"""
 	def __new__(cls, *args, **kwargs):
 		return datetime.date.__new__(cls, *args, **kwargs)
 
@@ -35,9 +37,15 @@ class DateAdapter(datetime.date):
 			"day": self.day}
 	@staticmethod
 	def copy(self, date):
+		"""
+		Copy a date instance and construct a new DateAdapter.
+		"""
 		return DateAdapter(date.year, date.month, date.day)
 
 class DatetimeAdapter(datetime.datetime):
+	"""
+	Subclass of datetime.datetime.
+	"""
 	def __new__(cls, *args, **kwargs):
 		return datetime.datetime.__new__(cls, *args, **kwargs)
 
@@ -81,6 +89,9 @@ class DatetimeAdapter(datetime.datetime):
 			}
 	@staticmethod
 	def copy(self, datetime):
+		"""
+		Copy a datetime instance and create a new DatetimeAdapter.
+		"""
 		return DatetimeAdapter(datetime.year,
 				datetime.month,
 				datetime.day,
@@ -91,6 +102,9 @@ class DatetimeAdapter(datetime.datetime):
 				datetime.tzinfo)
 
 class TimeAdapter(datetime.time):
+	"""
+	Subclass of datetime.time.
+	"""
 	def __new__(cls, *args, **kwargs):
 		return datetime.time.__new__(cls, *args, **kwargs)
 
@@ -126,6 +140,9 @@ class TimeAdapter(datetime.time):
 
 	@staticmethod
 	def copy(self, time):
+		"""
+		Copy a time instance and create a new TimeAdapter.
+		"""
 		return TimeAdapter(time.hour,
 				time.minute,
 				time.second,

@@ -3,6 +3,12 @@ from .exceptions import DatabaseError
 from .abstractsql import AbstractSQLDB
 
 class SqliteDB(AbstractSQLDB):
+	"""
+	SQLite3 adapter.
+
+	The constuctor requires the filename of the
+	database file.
+	"""
 	def __init__(self, filename):
 		AbstractSQLDB.__init__(self)
 		self.filename = filename
