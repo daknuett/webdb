@@ -25,12 +25,17 @@ class FileOverlay(object):
 	``nickname``
 		the name of the file that the client knows.
 	"""
-	def __init__(self, path, root, modes, nickname):
+	def __init__(self, path, root, modes, nickname, maxsize = float("inf")):
 		self._path = path
 		self._root = root
 		self._modes = modes
 		self._abspath = os.path.join(root, path)
 		self._nickname = nickname
+		self._maxsize = maxsize
+		try:
+			self._size = os.stat(self._abspath).st_size
+		except:
+			self._size = 0
 
 	def get_file_part(self, offset, chunk_size):
 		"""
@@ -53,6 +58,10 @@ class FileOverlay(object):
 
 		if(not "w" in self._modes):
 			raise IOError("file is not writable")
+
+		tail = offset - self._size + chunk_size
+		if(tail + self._size > self._maxsize):
+			raise IOError("maximum file size exceeded")
 
 		if(not os.path.exists(self._abspath)):
 			if(not "c" in self._modes):
