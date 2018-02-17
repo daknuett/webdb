@@ -154,6 +154,21 @@ can execute queries.</p>
 
 </dd></dl>
 
+<dl class="class">
+<dt id="webdb.adapter.sqlite.SqliteDBMS">
+<em class="property">class </em><code class="descclassname">webdb.adapter.sqlite.</code><code class="descname">SqliteDBMS</code><span class="sig-paren">(</span><em>path</em>, <em>filenames</em>, <em>inject=None</em>, <em>inject_as=None</em><span class="sig-paren">)</span><a class="headerlink" href="#webdb.adapter.sqlite.SqliteDBMS" title="Permalink to this definition">¶</a></dt>
+<dd><p>DBMS for SQLite files. All databases are files under <code class="docutils literal notranslate"><span class="pre">path</span></code>.</p>
+<dl class="method">
+<dt id="webdb.adapter.sqlite.SqliteDBMS.dispatch_DB">
+<code class="descname">dispatch_DB</code><span class="sig-paren">(</span><em>db_name</em><span class="sig-paren">)</span><a class="headerlink" href="#webdb.adapter.sqlite.SqliteDBMS.dispatch_DB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Try to connect to this database. Return a new AbstractDB
+instance. This DB should not be opened yet 
+(<code class="docutils literal notranslate"><span class="pre">open</span></code> will be called later).</p>
+<p><strong>Note</strong>: A DBMS might manage several different DBs.</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-webdb.adapter.exceptions">
 <span id="webdb-adapter-exceptions"></span><h2>webdb.adapter.exceptions<a class="headerlink" href="#module-webdb.adapter.exceptions" title="Permalink to this headline">¶</a></h2>

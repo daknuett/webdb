@@ -1,0 +1,257 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>webdb.files &#8212; webdb 0.0.1 documentation</title>
+    <link rel="stylesheet" href="static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="static/documentation_options.js"></script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="webdb.typehandling" href="typehandling.html" />
+   
+  <link rel="stylesheet" href="static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="webdb-files">
+<h1>webdb.files<a class="headerlink" href="#webdb-files" title="Permalink to this headline">¶</a></h1>
+<p>This sub package can be used to provide user files for
+web applications.</p>
+<div class="section" id="module-webdb.files.file">
+<span id="webdb-files-file"></span><h2>webdb.files.file<a class="headerlink" href="#module-webdb.files.file" title="Permalink to this headline">¶</a></h2>
+<p>File overlays for providing files to web applications.</p>
+<dl class="class">
+<dt id="webdb.files.file.FileOverlay">
+<em class="property">class </em><code class="descclassname">webdb.files.file.</code><code class="descname">FileOverlay</code><span class="sig-paren">(</span><em>path</em>, <em>root</em>, <em>modes</em>, <em>nickname</em>, <em>maxsize=inf</em><span class="sig-paren">)</span><a class="headerlink" href="#webdb.files.file.FileOverlay" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the main file overlay providing methods on files 
+that are useful when operating over a remote connection.</p>
+<dl class="docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">path</span></code></dt>
+<dd>relative path of the file</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">root</span></code></dt>
+<dd>absolute path of the “root” directory for files,
+<code class="docutils literal notranslate"><span class="pre">os.path.join(root,</span> <span class="pre">path)</span></code> must be the absolute path
+of the file</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">modes</span></code> </dt>
+<dd><p class="first">string or list of characters:</p>
+<ul class="last simple">
+<li><code class="docutils literal notranslate"><span class="pre">&quot;r&quot;</span></code> readable</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;w&quot;</span></code> writable</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;c&quot;</span></code> file can be created</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;p&quot;</span></code> also parent directories can be created.</li>
+</ul>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">nickname</span></code></dt>
+<dd>the name of the file that the client knows.</dd>
+</dl>
+<dl class="method">
+<dt id="webdb.files.file.FileOverlay.create_file">
+<code class="descname">create_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#webdb.files.file.FileOverlay.create_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the file or raise IOError.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="webdb.files.file.FileOverlay.get_file_part">
+<code class="descname">get_file_part</code><span class="sig-paren">(</span><em>offset</em>, <em>chunk_size</em><span class="sig-paren">)</span><a class="headerlink" href="#webdb.files.file.FileOverlay.get_file_part" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a <code class="docutils literal notranslate"><span class="pre">FilePart</span></code> of this file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="webdb.files.file.FileOverlay.remove_file">
+<code class="descname">remove_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#webdb.files.file.FileOverlay.remove_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove this file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="webdb.files.file.FileOverlay.truncate">
+<code class="descname">truncate</code><span class="sig-paren">(</span><em>size=None</em><span class="sig-paren">)</span><a class="headerlink" href="#webdb.files.file.FileOverlay.truncate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Truncate the file to <code class="docutils literal notranslate"><span class="pre">size</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="webdb.files.file.FileOverlay.write_file_part">
+<code class="descname">write_file_part</code><span class="sig-paren">(</span><em>offset</em>, <em>chunk</em><span class="sig-paren">)</span><a class="headerlink" href="#webdb.files.file.FileOverlay.write_file_part" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a part of a file. If the file is not at least <code class="docutils literal notranslate"><span class="pre">offset</span></code>
+bytes long, raise <code class="docutils literal notranslate"><span class="pre">IndexError</span></code>. This is a protection against
+people that think it would be funny to fill the disk up with zeros.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="webdb.files.file.FilePart">
+<em class="property">class </em><code class="descclassname">webdb.files.file.</code><code class="descname">FilePart</code><span class="sig-paren">(</span><em>file_</em>, <em>offset</em>, <em>chunk_size</em><span class="sig-paren">)</span><a class="headerlink" href="#webdb.files.file.FilePart" title="Permalink to this definition">¶</a></dt>
+<dd><p>This represents a readable file part.</p>
+<dl class="method">
+<dt id="webdb.files.file.FilePart.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#webdb.files.file.FilePart.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close the underlaying file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="webdb.files.file.FilePart.read">
+<code class="descname">read</code><span class="sig-paren">(</span><em>cnt=None</em><span class="sig-paren">)</span><a class="headerlink" href="#webdb.files.file.FilePart.read" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">read</span></code> from the file. Do not read further than <code class="docutils literal notranslate"><span class="pre">offset</span> <span class="pre">+</span> <span class="pre">chunk_size</span></code>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-webdb.files.dispatcher">
+<span id="webdb-files-dispatcher"></span><h2>webdb.files.dispatcher<a class="headerlink" href="#module-webdb.files.dispatcher" title="Permalink to this headline">¶</a></h2>
+<p>File dispatchers for serving files for web applications.</p>
+<dl class="class">
+<dt id="webdb.files.dispatcher.QuotaUserFileDispatcher">
+<em class="property">class </em><code class="descclassname">webdb.files.dispatcher.</code><code class="descname">QuotaUserFileDispatcher</code><span class="sig-paren">(</span><em>root</em>, <em>quota</em><span class="sig-paren">)</span><a class="headerlink" href="#webdb.files.dispatcher.QuotaUserFileDispatcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>This file dispatcher has a seperated path for
+every user. The user is allowed to do anything
+in this path (read, write, create, create parents).</p>
+<p>This file dispatcher will refuse changes, if a quota has
+been exceeded.</p>
+<p>Only use this for “semi reliable” clients.</p>
+<dl class="method">
+<dt id="webdb.files.dispatcher.QuotaUserFileDispatcher.dispatch_file">
+<code class="descname">dispatch_file</code><span class="sig-paren">(</span><em>path</em>, <em>username</em><span class="sig-paren">)</span><a class="headerlink" href="#webdb.files.dispatcher.QuotaUserFileDispatcher.dispatch_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dispatch the file. This <strong>must always</strong> return 
+a <code class="docutils literal notranslate"><span class="pre">FileOverlay</span></code>. Even if the file must not be accessed,
+or does not exist. In this case the <code class="docutils literal notranslate"><span class="pre">modes</span></code> must be emtpy.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="webdb.files.dispatcher.SQLFileDispatcher">
+<em class="property">class </em><code class="descclassname">webdb.files.dispatcher.</code><code class="descname">SQLFileDispatcher</code><span class="sig-paren">(</span><em>db_connection</em><span class="sig-paren">)</span><a class="headerlink" href="#webdb.files.dispatcher.SQLFileDispatcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a nice dispatcher for controlled environments,
+such as sharing files between users or a limited set of 
+files.</p>
+<p>The dispatcher looks up the files in a database, dispatchs the real
+path and returns the according FileOverlay.</p>
+<p>The commands for creating the tables are:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">files</span><span class="p">(</span><span class="n">path</span> <span class="n">text</span> <span class="n">UNIQUE</span><span class="p">,</span>
+                <span class="nb">id</span> <span class="n">integer</span> <span class="n">PRIMARY</span> <span class="n">KEY</span> <span class="n">AUTOINCREMENT</span><span class="p">,</span>
+                <span class="n">max_size</span> <span class="n">integer</span><span class="p">);</span>
+
+<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">access</span><span class="p">(</span><span class="n">file_id</span> <span class="n">integer</span><span class="p">,</span>
+                <span class="n">username</span> <span class="n">text</span><span class="p">,</span>
+                <span class="n">modes</span> <span class="n">text</span><span class="p">);</span>
+
+<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">nicknames</span><span class="p">(</span><span class="n">name</span> <span class="n">text</span> <span class="n">PRIMARY</span> <span class="n">KEY</span><span class="p">,</span>
+                <span class="n">file_id</span> <span class="n">integer</span><span class="p">);</span>
+
+<span class="n">CREATE</span> <span class="n">INDEX</span> <span class="n">access_index</span> <span class="n">ON</span> <span class="n">access</span><span class="p">(</span><span class="n">file_id</span><span class="p">);</span>
+
+<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">root</span><span class="p">(</span><span class="n">root</span> <span class="n">text</span> <span class="n">UNIQUE</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><strong>NOTE</strong>: This dispatcher does NOT allow creating files.</p>
+<dl class="method">
+<dt id="webdb.files.dispatcher.SQLFileDispatcher.dispatch_file">
+<code class="descname">dispatch_file</code><span class="sig-paren">(</span><em>nickname</em>, <em>username</em><span class="sig-paren">)</span><a class="headerlink" href="#webdb.files.dispatcher.SQLFileDispatcher.dispatch_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method looks up the file in the sqlite database and
+resolves the real path, the access rights and the modes</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="webdb.files.dispatcher.UserFileDispatcher">
+<em class="property">class </em><code class="descclassname">webdb.files.dispatcher.</code><code class="descname">UserFileDispatcher</code><span class="sig-paren">(</span><em>root</em><span class="sig-paren">)</span><a class="headerlink" href="#webdb.files.dispatcher.UserFileDispatcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>This file dispatcher has a seperated path for
+every user. The user is allowed to do anything
+in this path (read, write, create, create parents).</p>
+<p>Only use this for “reliable” clients.</p>
+<dl class="method">
+<dt id="webdb.files.dispatcher.UserFileDispatcher.dispatch_file">
+<code class="descname">dispatch_file</code><span class="sig-paren">(</span><em>path</em>, <em>username</em><span class="sig-paren">)</span><a class="headerlink" href="#webdb.files.dispatcher.UserFileDispatcher.dispatch_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dispatch the file. This <strong>must always</strong> return 
+a <code class="docutils literal notranslate"><span class="pre">FileOverlay</span></code>. Even if the file must not be accessed,
+or does not exist. In this case the <code class="docutils literal notranslate"><span class="pre">modes</span></code> must be emtpy.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">webdb.files</a><ul>
+<li><a class="reference internal" href="#module-webdb.files.file">webdb.files.file</a></li>
+<li><a class="reference internal" href="#module-webdb.files.dispatcher">webdb.files.dispatcher</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="package.html">Package Documentation</a><ul>
+      <li>Previous: <a href="typehandling.html" title="previous chapter">webdb.typehandling</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="sources/files.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Daniel Knüttel.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="sources/files.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

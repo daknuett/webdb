@@ -5,3 +5,4 @@ Package Documentation
 
    adapter
    typehandling
+   files
