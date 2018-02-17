@@ -107,14 +107,25 @@ class SQLFileDispatcher(AbstractFileDispatcher):
 
 
 	**NOTE**: This dispatcher does NOT allow creating files.
+
+	**NOTE**: if ``max_size`` is ``-1`` it will be interpreted as
+		"has no max size".
 		
 	"""
 
 	def __init__(self, db_connection):
 		self._db = db_connection
-		with self._db.cursor() as cursor:
+		cursor = self._db.cursor()
+		try:
 			cursor.execute("SELECT root from root")
 			self._root = cursor.fetchone()[0]
+		except: 
+			pass
+		if(not self._root):
+			logger.error("Root directory is not set. " \
+				"You have forgotten to insert the absolute root path "\
+				"into the database.")
+			raise IOError("root directory is not set")
 
 	def dispatch_file(self, nickname, username):
 		"""
@@ -123,35 +134,39 @@ class SQLFileDispatcher(AbstractFileDispatcher):
 
 		"""
 
-		with self._db.cursor() as cursor:
-			cursor.execute("SELECT file_id FROM nicknames WHERE name = ?", [nickname])
-			result = cursor.fetchone()
-			if(not result):
-				raise IOError("unknown file")
-			file_id = result[0]
+		cursor = self._db.cursor()
 
-			cursor.execute("SELECT path, maxsize FROM files WHERE id = ?", [file_id])
+		cursor.execute("SELECT file_id FROM nicknames WHERE name = ?", [nickname])
+		result = cursor.fetchone()
+		if(not result):
+			raise IOError("unknown file")
+		file_id = result[0]
 
-			result = cursor.fetchone()
-			if(not result):
-				# XXX:
-				# This is bad. 
-				# The database is desynced (most propably a DELETE Anomaly.).
-				# However the user should most propably not know about this.
-				logger.error("XXX: file database is desynced. This is most propably a DELETE anomaly" \
-						" there is a nickname pointing to file_id={}, but this file_id is not" \
-						" in files.".format(file_id))
-				raise IOError("unknown file")
+		cursor.execute("SELECT path, max_size FROM files WHERE id = ?", [file_id])
 
-			path, maxsize = result
+		result = cursor.fetchone()
+		if(not result):
+			# XXX:
+			# This is bad. 
+			# The database is desynced (most propably a DELETE Anomaly.).
+			# However the user should most propably not know about this.
+			logger.error("XXX: file database is desynced. This is most propably a DELETE anomaly" \
+					" there is a nickname pointing to file_id={}, but this file_id is not" \
+					" in files.".format(file_id))
+			raise IOError("unknown file")
 
-			cursor.execute("SELECT modes FROM access WHERE file_id = ? AND username = ?", [file_id, username])
-			result = cursor.fetchone()
+		path, maxsize = result
 
-			if(not result):
-				modes = ""
-			else:
-				modes = result[0]
+		if(maxsize == -1):
+			max_size = float("inf")
+
+		cursor.execute("SELECT modes FROM access WHERE file_id = ? AND username = ?", [file_id, username])
+		result = cursor.fetchone()
+
+		if(not result):
+			modes = ""
+		else:
+			modes = result[0]
 
 
 		# Create and create parents is not supported 
@@ -159,4 +174,6 @@ class SQLFileDispatcher(AbstractFileDispatcher):
 		# How does the system what files the user may create?
 		modes = modes.replace("c", "").replace("p", "")
 
+		logger.info("dispatched: path: {}, root: {}, modes: {}, nickname: {}, maxsize: {}".format(
+				path, self._root, modes, nickname, max_size))
 		return FileOverlay(path, self._root, modes, nickname, max_size) 

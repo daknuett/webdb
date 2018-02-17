@@ -2,14 +2,14 @@ import pytest
 import sqlite3, os
 from webdb.adapter.sqlite import SqliteDBMS
 
-@pytest.fixture(scope = "session")
+@pytest.fixture
 def sqlite3_db(tmpdir_factory):
 	fn = tmpdir_factory.mktemp('data').join('test.db')
 
 	return str(fn)
 
 
-@pytest.fixture(scope = "session")
+@pytest.fixture
 def sqlite3_db_default(tmpdir_factory):
 	fn = tmpdir_factory.mktemp('data').join('test.db')
 
@@ -22,7 +22,7 @@ def sqlite3_db_default(tmpdir_factory):
 	return str(fn)
 
 
-@pytest.fixture(scope = "session")
+@pytest.fixture
 def sqlite_dbms_default(tmpdir_factory):
 	path = str(tmpdir_factory.mktemp('data_dbms'))
 	
