@@ -3,6 +3,8 @@ File dispatchers for serving files for web applications.
 """
 
 from abc import abstractmethod, ABCMeta
+from .file import FileOverlay
+import os
 import logging
 
 logger = logging.getLogger(__name__)
@@ -40,7 +42,7 @@ class UserFileDispatcher(AbstractFileDispatcher):
 		self._root = root
 
 	def dispatch_file(self, path, username):
-		path = cleanup_path(path)
+		path = self.cleanup_path(path)
 		root = os.path.join(self._root, username)
 		return FileOverlay(path, root, "rwcp", path)
 
@@ -57,12 +59,12 @@ class QuotaUserFileDispatcher(UserFileDispatcher):
 
 	Only use this for "semi reliable" clients.
 	"""
-	def __init__(self, quota, root):
+	def __init__(self, root, quota):
 		UserFileDispatcher.__init__(self, root)
 		self._quota = quota
 
 	def dispatch_file(self, path, username):
-		path = cleanup_path(path)
+		path = self.cleanup_path(path)
 		root = os.path.join(self._root, username)
 		current_size = 0
 		# FIXME:
@@ -70,7 +72,7 @@ class QuotaUserFileDispatcher(UserFileDispatcher):
 		# I will have to figure out a safe 
 		# way of buffering the size.
 		for directory in os.walk(root):
-			for f in directory[1]
+			for f in directory[1]:
 				if(not os.path.isfile(f)):
 					continue
 				current_size += os.stat(f).st_size
@@ -148,7 +150,7 @@ class SQLFileDispatcher(AbstractFileDispatcher):
 
 			if(not result):
 				modes = ""
-			else
+			else:
 				modes = result[0]
 
 

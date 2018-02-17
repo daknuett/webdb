@@ -59,6 +59,7 @@ class FileOverlay(object):
 		if(not "w" in self._modes):
 			raise IOError("file is not writable")
 
+		chunk_size = len(chunk)
 		tail = offset - self._size + chunk_size
 		if(tail + self._size > self._maxsize):
 			raise IOError("maximum file size exceeded")
@@ -66,27 +67,44 @@ class FileOverlay(object):
 		if(not os.path.exists(self._abspath)):
 			if(not "c" in self._modes):
 				raise IOError("file does not exist")
-			self.create_file(self)
+			self.create_file()
+
+		if(offset > self._size + 1):
+			raise IndexError("file size exceeded")
 
 		with open(self._abspath, "r+b") as fin:
 			fin.seek(offset)
-			if(fin.tell() < offset):
-				raise IndexError("file size exceeded")
 			fin.write(chunk)
 
-	def truncate(self):
+		# FIXME:
+		# This is just for testing. In a production
+		# environment the FileOverlay should be deleted once
+		# an operation has been issued.
+		# This is just natural.
+		self._size = os.stat(self._abspath).st_size
+
+	def truncate(self, size = None):
+		"""
+		Truncate the file to ``size``. 
+		"""
 		if(not "w" in self._modes):
 			raise IOError("file is not writable")
 
 		if(not os.path.exists(self._abspath)):
 			if(not "c" in self._modes):
 				raise IOError("file does not exist")
-			self.create_file(self)
+			self.create_file()
 			return
 
-		open(self._abspath, "wb").close()
+		with open(self._abspath, "r+b") as f:
+			f.truncate(size)
+
+
 
 	def create_file(self):
+		"""
+		Create the file or raise IOError.
+		"""
 		if(not "c" in self._modes):
 			raise IOError("file ist not creatable")
 		if(os.path.exists(self._abspath)):
@@ -97,6 +115,16 @@ class FileOverlay(object):
 				raise IOError("parent path cannot be created")
 			os.makedirs(os.path.dirname(self._abspath))
 		open(self._abspath, "wb").close()
+
+	def remove_file(self):
+		"""
+		Remove this file.
+		"""
+
+		if(not "w" in self._modes):
+			raise IOError("file is not writable")
+
+		os.remove(self._abspath)
 
 
 
