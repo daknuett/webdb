@@ -10,6 +10,7 @@ Welcome to webdb's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   contributors
    package
 
 
