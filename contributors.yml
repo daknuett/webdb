@@ -1,0 +1,11 @@
+- name: Daniel Knüttel
+  email: daniel.knuettel@daknuett.eu
+  contributions:
+        - year: 2018
+          descr: Initial version of the database interface and backend
+        - year: 2018
+          descr: Initial version of the file interface and backend
+        - year: 2018
+          descr: Initial tests
+        - year: 2018 
+          descr: Initial documentation
