@@ -25,13 +25,14 @@ class FileOverlay(object):
 	``nickname``
 		the name of the file that the client knows.
 	"""
-	def __init__(self, path, root, modes, nickname, maxsize = float("inf")):
+	def __init__(self, path, root, modes, nickname, maxsize = float("inf"), cpy_chunk_size = 255):
 		self._path = path
 		self._root = root
 		self._modes = modes
 		self._abspath = os.path.join(root, path)
 		self._nickname = nickname
 		self._maxsize = maxsize
+		self._cpy_chunk_size = cpy_chunk_size
 		try:
 			self._size = os.stat(self._abspath).st_size
 		except:
@@ -82,6 +83,29 @@ class FileOverlay(object):
 		# an operation has been issued.
 		# This is just natural.
 		self._size = os.stat(self._abspath).st_size
+
+	def copy_file_part(self, offset, file_part):
+		"""
+		Copy the ``file_part`` to ``offset``.
+
+		This will read ``cpy_chunk_size`` chunks and write them at
+		``offset``.
+
+		If the maxsize is exceeded it will stop after writing enough
+		chunks to not yet exceed the size.
+		"""
+
+		chunk = file_part.read(self._cpy_chunk_size)
+		c_offset = offset
+		while(chunk):
+			self.write_file_part(c_offset, chunk)
+			# FIXME:
+			# Check whether it would be o.k.
+			# to just add ``self._cpy_chunk_size`` instead
+			# of calculating the length of the chunk.
+			c_offset += len(chunk)
+			chunk = file_part.read(self._cpy_chunk_size)
+
 
 	def truncate(self, size = None):
 		"""
