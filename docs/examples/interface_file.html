@@ -1,0 +1,129 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Example: File Interface &#8212; webdb 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../static/documentation_options.js"></script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Contributors" href="../contributors.html" />
+    <link rel="prev" title="Guide" href="../guide.html" />
+   
+  <link rel="stylesheet" href="../static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="example-file-interface">
+<h1>Example: File Interface<a class="headerlink" href="#example-file-interface" title="Permalink to this headline">¶</a></h1>
+<p>This example shows how to run a web application that serves
+both calculated content under the <code class="docutils literal notranslate"><span class="pre">/</span></code> mount and file
+content.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">/</span></code> application handles the “login” in this case, the
+<code class="docutils literal notranslate"><span class="pre">files</span></code> application serves user files.</p>
+<p>All files are placed in the directory <code class="docutils literal notranslate"><span class="pre">root</span></code> relative to
+the current path.</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">webdb.interface.file</span> <span class="k">import</span> <span class="n">FileInterface</span>
+<span class="kn">from</span> <span class="nn">webdb.files.dispatcher</span> <span class="k">import</span> <span class="n">UserFileDispatcher</span>
+
+<span class="kn">import</span> <span class="nn">cherrypy</span><span class="o">,</span> <span class="nn">logging</span>
+
+<span class="n">cherrypy</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;tools.sessions.on&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+<span class="n">dispatcher</span> <span class="o">=</span> <span class="n">UserFileDispatcher</span><span class="p">(</span><span class="s2">&quot;root&quot;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">DummyApp</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+        <span class="nd">@cherrypy</span><span class="o">.</span><span class="n">expose</span>
+        <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+                <span class="k">return</span> <span class="s2">&quot;Hello, World!&quot;</span>
+        <span class="nd">@cherrypy</span><span class="o">.</span><span class="n">expose</span>
+        <span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+                <span class="n">cherrypy</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
+
+        <span class="nd">@cherrypy</span><span class="o">.</span><span class="n">expose</span>
+        <span class="k">def</span> <span class="nf">get_uname</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">cherrypy</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+
+<span class="n">dummy_app</span> <span class="o">=</span> <span class="n">DummyApp</span><span class="p">()</span>
+<span class="n">interface</span> <span class="o">=</span> <span class="n">FileInterface</span><span class="p">(</span><span class="n">dispatcher</span><span class="p">,</span> <span class="n">dummy_app</span><span class="o">.</span><span class="n">get_uname</span><span class="p">)</span>
+<span class="n">cherrypy</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="n">interface</span><span class="p">,</span> <span class="s2">&quot;/files&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;/&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;request.dispatch&quot;</span><span class="p">:</span> <span class="n">cherrypy</span><span class="o">.</span><span class="n">dispatch</span><span class="o">.</span><span class="n">MethodDispatcher</span><span class="p">()}})</span>
+
+<span class="n">cherrypy</span><span class="o">.</span><span class="n">quickstart</span><span class="p">(</span><span class="n">dummy_app</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Note</strong>: The <code class="docutils literal notranslate"><span class="pre">FileInterface</span></code> requires the
+<code class="docutils literal notranslate"><span class="pre">MethodDispatcher</span></code>.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="../guide.html">Guide</a><ul>
+      <li>Previous: <a href="../guide.html" title="previous chapter">Guide</a></li>
+      <li>Next: <a href="../contributors.html" title="next chapter">Contributors</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../sources/examples/interface_file.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Daniel Knüttel.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="../sources/examples/interface_file.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

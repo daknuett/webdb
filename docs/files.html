@@ -15,6 +15,7 @@
     <script type="text/javascript" src="static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="webdb.interface" href="interface.html" />
     <link rel="prev" title="webdb.typehandling" href="typehandling.html" />
    
   <link rel="stylesheet" href="static/custom.css" type="text/css" />
@@ -39,7 +40,7 @@ web applications.</p>
 <p>File overlays for providing files to web applications.</p>
 <dl class="class">
 <dt id="webdb.files.file.FileOverlay">
-<em class="property">class </em><code class="descclassname">webdb.files.file.</code><code class="descname">FileOverlay</code><span class="sig-paren">(</span><em>path</em>, <em>root</em>, <em>modes</em>, <em>nickname</em>, <em>maxsize=inf</em><span class="sig-paren">)</span><a class="headerlink" href="#webdb.files.file.FileOverlay" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">webdb.files.file.</code><code class="descname">FileOverlay</code><span class="sig-paren">(</span><em>path</em>, <em>root</em>, <em>modes</em>, <em>nickname</em>, <em>maxsize=inf</em>, <em>cpy_chunk_size=255</em><span class="sig-paren">)</span><a class="headerlink" href="#webdb.files.file.FileOverlay" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is the main file overlay providing methods on files 
 that are useful when operating over a remote connection.</p>
 <dl class="docutils">
@@ -61,6 +62,16 @@ of the file</dd>
 <dt><code class="docutils literal notranslate"><span class="pre">nickname</span></code></dt>
 <dd>the name of the file that the client knows.</dd>
 </dl>
+<dl class="method">
+<dt id="webdb.files.file.FileOverlay.copy_file_part">
+<code class="descname">copy_file_part</code><span class="sig-paren">(</span><em>offset</em>, <em>file_part</em><span class="sig-paren">)</span><a class="headerlink" href="#webdb.files.file.FileOverlay.copy_file_part" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy the <code class="docutils literal notranslate"><span class="pre">file_part</span></code> to <code class="docutils literal notranslate"><span class="pre">offset</span></code>.</p>
+<p>This will read <code class="docutils literal notranslate"><span class="pre">cpy_chunk_size</span></code> chunks and write them at
+<code class="docutils literal notranslate"><span class="pre">offset</span></code>.</p>
+<p>If the maxsize is exceeded it will stop after writing enough
+chunks to not yet exceed the size.</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="webdb.files.file.FileOverlay.create_file">
 <code class="descname">create_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#webdb.files.file.FileOverlay.create_file" title="Permalink to this definition">¶</a></dt>
@@ -215,6 +226,7 @@ or does not exist. In this case the <code class="docutils literal notranslate"><
   <li><a href="index.html">Documentation overview</a><ul>
   <li><a href="package.html">Package Documentation</a><ul>
       <li>Previous: <a href="typehandling.html" title="previous chapter">webdb.typehandling</a></li>
+      <li>Next: <a href="interface.html" title="next chapter">webdb.interface</a></li>
   </ul></li>
   </ul></li>
 </ul>

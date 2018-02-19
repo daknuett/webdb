@@ -21,10 +21,10 @@
 
 # ~Makefile~
 github:
-	find . -name \*.html -exec sed -i -- 's/_static/static/g'   *.html \;
-	find . -name \*.html -exec sed -i -- 's/_sources/sources/g' *.html \;
-	find . -name \*.html -exec sed -i -- 's/_images/images/g'   *.html \;
-	find . -name \*.html -exec sed -i -- 's/_modules/modules/g' *.html \;	
+	find . -name \*.html -exec sed -i -- 's/_static/static/g'   {} \;
+	find . -name \*.html -exec sed -i -- 's/_sources/sources/g' {} \;
+	find . -name \*.html -exec sed -i -- 's/_images/images/g'   {} \;
+	find . -name \*.html -exec sed -i -- 's/_modules/modules/g' {} \;	
 	if [ -e  _static/ ] ; then mv _static/ ./static/; fi
 	if [ -e  _sources/ ] ; then mv _sources/ ./sources/; fi
 	if [ -e  _images/ ] ; then mv _images/ ./images/; fi

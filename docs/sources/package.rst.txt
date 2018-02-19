@@ -6,3 +6,4 @@ Package Documentation
    adapter
    typehandling
    files
+   interface
