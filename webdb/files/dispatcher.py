@@ -10,6 +10,9 @@ import logging
 logger = logging.getLogger(__name__)
 
 class AbstractFileDispatcher(metaclass = ABCMeta):
+	"""
+	Abstract base class for file dispatchers.
+	"""
 	@abstractmethod
 	def dispatch_file(self, path, *args):
 		"""

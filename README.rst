@@ -177,3 +177,23 @@ See also:
 One can omit some attributes, they will be filled with zeros
 automatically.
 
+Files
+=====
+
+``webdb`` is also capable of serving files. This can be done
+by creating a ``webdb.interface.file.FileInterface``
+instance and providing it with
+a ``webdb.files.dispatcher.AbstractFileDispatcher``.
+
+There are already three implementations:
+
+``UserFileDispatcher``
+	Allows full access to a private directory for all
+	users.
+
+``QuotaUserFileDispatcher``
+	Allows full access to a private directory for all
+	users. Rejects to write once the quota is exceeded.
+
+``SQLFileDispatcher``
+	Allows access to files according to a database.

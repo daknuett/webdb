@@ -129,6 +129,28 @@ people that think it would be funny to fill the disk up with zeros.</p>
 <span id="webdb-files-dispatcher"></span><h2>webdb.files.dispatcher<a class="headerlink" href="#module-webdb.files.dispatcher" title="Permalink to this headline">¶</a></h2>
 <p>File dispatchers for serving files for web applications.</p>
 <dl class="class">
+<dt id="webdb.files.dispatcher.AbstractFileDispatcher">
+<em class="property">class </em><code class="descclassname">webdb.files.dispatcher.</code><code class="descname">AbstractFileDispatcher</code><a class="headerlink" href="#webdb.files.dispatcher.AbstractFileDispatcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract base class for file dispatchers.</p>
+<dl class="method">
+<dt id="webdb.files.dispatcher.AbstractFileDispatcher.cleanup_path">
+<code class="descname">cleanup_path</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="headerlink" href="#webdb.files.dispatcher.AbstractFileDispatcher.cleanup_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clean up the path. Remove any “..”s and a leading “/”.</p>
+<p><code class="docutils literal notranslate"><span class="pre">dispatch_file</span></code> <strong>must</strong> call this method before actually dispatching the
+file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="webdb.files.dispatcher.AbstractFileDispatcher.dispatch_file">
+<code class="descname">dispatch_file</code><span class="sig-paren">(</span><em>path</em>, <em>*args</em><span class="sig-paren">)</span><a class="headerlink" href="#webdb.files.dispatcher.AbstractFileDispatcher.dispatch_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dispatch the file. This <strong>must always</strong> return 
+a <code class="docutils literal notranslate"><span class="pre">FileOverlay</span></code>. Even if the file must not be accessed,
+or does not exist. In this case the <code class="docutils literal notranslate"><span class="pre">modes</span></code> must be emtpy.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="webdb.files.dispatcher.QuotaUserFileDispatcher">
 <em class="property">class </em><code class="descclassname">webdb.files.dispatcher.</code><code class="descname">QuotaUserFileDispatcher</code><span class="sig-paren">(</span><em>root</em>, <em>quota</em><span class="sig-paren">)</span><a class="headerlink" href="#webdb.files.dispatcher.QuotaUserFileDispatcher" title="Permalink to this definition">¶</a></dt>
 <dd><p>This file dispatcher has a seperated path for
