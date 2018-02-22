@@ -39,6 +39,48 @@
 <li class="toctree-l1"><a class="reference internal" href="examples/interface_file.html">Example: File Interface</a></li>
 </ul>
 </div>
+<div class="section" id="how-to-use-webdb">
+<h2>How to use webdb<a class="headerlink" href="#how-to-use-webdb" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">webdb</span></code> provides a simple way to expose your databases to
+the web.</p>
+<div class="section" id="authentication">
+<h3>Authentication<a class="headerlink" href="#authentication" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">webdb</span></code> <strong>DOES NOT</strong> provide a way to authenticate your
+users. This <strong>must</strong> be done by a parent app or <code class="docutils literal notranslate"><span class="pre">cherrypy</span></code>.
+See the <a class="reference external" href="http://docs.cherrypy.org/en/latest/basics.html#authentication">docs</a>
+on how to do that.</p>
+<p>However one can isolate the users by injecting data into the
+queries. This can be done easily using sessions: Just add
+a <code class="docutils literal notranslate"><span class="pre">username</span></code> to the session, for instance in the
+<code class="docutils literal notranslate"><span class="pre">checkpassword</span></code> function and inject this data:</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">passwords</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;foo&quot;</span><span class="p">:</span> <span class="s2">&quot;bar&quot;</span><span class="p">}</span>
+<span class="c1"># XXX: do not actually use plaintext passwords.</span>
+<span class="k">def</span> <span class="nf">check_password</span><span class="p">(</span><span class="n">realm</span><span class="p">,</span> <span class="n">uname</span><span class="p">,</span> <span class="n">passwd</span><span class="p">):</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">uname</span> <span class="ow">in</span> <span class="n">passwords</span> <span class="ow">and</span> <span class="n">passwords</span><span class="p">[</span><span class="n">uname</span><span class="p">]</span> <span class="o">==</span> <span class="n">passwd</span><span class="p">):</span>
+                <span class="n">cherrypy</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s2">&quot;username&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uname</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+<span class="k">class</span> <span class="nc">WhateverServer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+        <span class="nd">@cherrypy</span><span class="o">.</span><span class="n">expose</span>
+        <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+                <span class="k">return</span> <span class="s2">&quot;Foobar&quot;</span>
+        <span class="k">def</span> <span class="nf">get_username</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">cherrypy</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s2">&quot;username&quot;</span><span class="p">]</span>
+
+<span class="n">server</span> <span class="o">=</span> <span class="n">WhateverServer</span><span class="p">()</span>
+<span class="n">dbms</span> <span class="o">=</span> <span class="n">SqliteDBMS</span><span class="p">(</span><span class="s2">&quot;path/to/dbs&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;db1&quot;</span><span class="p">,</span> <span class="s2">&quot;db2&quot;</span><span class="p">],</span>
+                <span class="n">inject</span> <span class="o">=</span> <span class="n">server</span><span class="o">.</span><span class="n">get_username</span><span class="p">,</span>
+                <span class="n">inject_as</span> <span class="o">=</span> <span class="s2">&quot;username&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A database then will look like this:</p>
+<div class="code sql highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">table1</span><span class="p">(</span><span class="n">username</span> <span class="n">text</span><span class="p">,</span> <span class="n">some_data</span> <span class="n">text</span><span class="p">,</span>
+        <span class="n">more_data</span> <span class="n">integer</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 
 
@@ -46,7 +88,18 @@
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Guide</a><ul>
+<li><a class="reference internal" href="#how-to-use-webdb">How to use webdb</a><ul>
+<li><a class="reference internal" href="#authentication">Authentication</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>

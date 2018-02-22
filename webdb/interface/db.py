@@ -32,6 +32,21 @@ def request_is_ok(request):
 
 @cherrypy.expose
 class DBInterface(object):
+	"""
+	Interface for databases.
+	
+	In the current version both GET and POST behave 
+	the same way but this might be changed in the 
+	future.
+	
+	This will try to fulfill the request 
+	and return either nothing (Status = 204),
+	plain text (Status = 200, Content-Type = text/plain)
+	or JSON (Status = 200, Content-Type = application/json).
+
+	On failure (Status = 400 or Status = 404) it will return
+	a more or less helpful error message (Content-Type = text/plain).
+	"""
 	def __init__(self, dbms):
 		self._dbms = dbms
 

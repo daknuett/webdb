@@ -35,6 +35,21 @@
 <div class="section" id="module-webdb.interface.db">
 <span id="webdb-interface-db"></span><h2>webdb.interface.db<a class="headerlink" href="#module-webdb.interface.db" title="Permalink to this headline">¶</a></h2>
 <p>Web interface for databases using JSON requests.</p>
+<dl class="class">
+<dt id="webdb.interface.db.DBInterface">
+<em class="property">class </em><code class="descclassname">webdb.interface.db.</code><code class="descname">DBInterface</code><span class="sig-paren">(</span><em>dbms</em><span class="sig-paren">)</span><a class="headerlink" href="#webdb.interface.db.DBInterface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interface for databases.</p>
+<p>In the current version both GET and POST behave 
+the same way but this might be changed in the 
+future.</p>
+<p>This will try to fulfill the request 
+and return either nothing (Status = 204),
+plain text (Status = 200, Content-Type = text/plain)
+or JSON (Status = 200, Content-Type = application/json).</p>
+<p>On failure (Status = 400 or Status = 404) it will return
+a more or less helpful error message (Content-Type = text/plain).</p>
+</dd></dl>
+
 </div>
 <div class="section" id="module-webdb.interface.file">
 <span id="webdb-interface-file"></span><h2>webdb.interface.file<a class="headerlink" href="#module-webdb.interface.file" title="Permalink to this headline">¶</a></h2>
