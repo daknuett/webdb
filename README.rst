@@ -6,6 +6,14 @@ client side data access in web applications.
 
 .. contents::
 
+Links
+=====
+
+- `The Documentation <https://daknuett.github.io/webdb>`_
+- `The GitHub Repository
+<https://github.com/daknuett/webdb>`_
+
+
 
 What is webdb?
 ==============
