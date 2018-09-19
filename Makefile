@@ -3,7 +3,7 @@ all: test doc
 
 .PHONY: test
 test: install
-	pytest -vv test/
+	python3 -m pytest -vv test/
 
 .PHONY: install
 install:
