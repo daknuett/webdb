@@ -10,8 +10,7 @@ Links
 =====
 
 - `The Documentation <https://daknuett.github.io/webdb>`_
-- `The GitHub Repository
-<https://github.com/daknuett/webdb>`_
+- `The GitHub Repository <https://github.com/daknuett/webdb>`_
 
 
 
