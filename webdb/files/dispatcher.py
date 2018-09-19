@@ -42,7 +42,10 @@ class UserFileDispatcher(AbstractFileDispatcher):
 	Only use this for "reliable" clients.
 	"""
 	def __init__(self, root):
-		self._root = root
+		# FIXME:
+		# This is a bug with the python3-stdlib. 
+		# See also: .file.FileOverlay.__init__.
+		self._root = str(root)
 
 	def dispatch_file(self, path, username):
 		path = self.cleanup_path(path)

@@ -27,9 +27,13 @@ class FileOverlay(object):
 	"""
 	def __init__(self, path, root, modes, nickname, maxsize = float("inf"), cpy_chunk_size = 255):
 		self._path = path
-		self._root = root
+		# FIXME:
+		# This is a python3-stdlib related bug.
+		# Somehow sometimes we get a LocalPath object that is not supported
+		# by os.path.join. Maybe when we drop python < 3.6 support we can omit this.
+		self._root = str(root)
 		self._modes = modes
-		self._abspath = os.path.join(root, path)
+		self._abspath = os.path.join(self._root, path)
 		self._nickname = nickname
 		self._maxsize = maxsize
 		self._cpy_chunk_size = cpy_chunk_size

@@ -9,7 +9,7 @@ def default_sqldispatcher(tmpdir_factory):
 	
 	root = tmpdir_factory.mktemp('data')
 
-	db = sqlite3.connect(os.path.join(root, "dispatch.db"))
+	db = sqlite3.connect(os.path.join(str(root), "dispatch.db"))
 
 	setup = ["CREATE TABLE files(" \
 			"path text UNIQUE, " \
@@ -47,7 +47,7 @@ def default_sqldispatcher(tmpdir_factory):
 	db.commit()
 
 	for i in ["file1.tx", "file2.tx", "file3.tx"]:
-		open(os.path.join(root, i), "w").close()
+		open(os.path.join(str(root), i), "w").close()
 
 	# Setup is done
 		
